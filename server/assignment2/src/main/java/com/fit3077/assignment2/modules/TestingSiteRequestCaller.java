@@ -12,6 +12,7 @@ import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.SimpleResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,31 +58,20 @@ public class TestingSiteRequestCaller {
      * @throws InterruptedException
      */
     @GetMapping("")
-    public SimpleResponse searchTestingSite(@PathVariable String suburbName, 
-    @PathVariable(required = false) String functions, @PathVariable(required = false) String types) throws IOException, InterruptedException {
+    public SimpleResponse searchTestingSite(String suburbName, String functions, String types) throws IOException, InterruptedException {
         // this is where you do stuff basically
         // Performing a valid GET request to fetch a particular resource by ID
-
 
         String address = "address";
         String suburb = "suburb";   // the "suburb" property is available under the "address" property
         String additionalInfo = "additionalInfo";
 
-        // // the properties below can be categorised in "additionalInfo"
-        // String driveThrough = "driveThrough";
-        // String walkIn = "walkIn";
-        // String[] siteFunctions = {driveThrough, walkIn};
-
-        // String clinic = "clinic";
-        // String generalPractitioner = "gp";
-        // String hospital = "hospital";
-        // String[] siteTypes = {clinic, generalPractitioner, hospital};
         String[] siteFunctions = {};
         if (functions != null && functions.strip().length() != 0) siteFunctions = functions.split(ServerConfig.DELIMITER);
         String[] siteTypes = {};
         if (types != null && types.strip().length() != 0) siteTypes = types.split(ServerConfig.DELIMITER);
 
-        String userIdUrl = TESTING_SITE_URL + "/?suburb=" + suburbName;
+        String userIdUrl = TESTING_SITE_URL;
         HttpRequest request = HttpRequest
             .newBuilder(URI.create(userIdUrl))
             .setHeader(AUTH_HEADER_KEY, apiKey)
@@ -89,13 +79,12 @@ public class TestingSiteRequestCaller {
             .build();
 
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        List<JSONObject> matchingSites = new ArrayList<>();
 
-        JSONArray validTestingSites;
         if (response.statusCode() != 200) {
-            return new SimpleResponse<>(response.statusCode(), response.uri(), new JSONObject(response.body()));
+            return new SimpleResponse<>(response.statusCode(), response.uri(), new JSONArray(matchingSites));
         }
         JSONArray testingSites = new JSONArray(response.body().toString());
-        List<JSONObject> matchingSites = new ArrayList<>();
 
         for (int x = 0; x < testingSites.length(); x++) {
             JSONObject testSite = new JSONObject(testingSites.get(x).toString());
@@ -104,27 +93,24 @@ public class TestingSiteRequestCaller {
             // If facility type/function is specified, 
             Boolean typeMatch = siteTypes.length == 0;
             for (int f = 0; f < siteTypes.length; f++) {
-                typeMatch = testSite.getJSONObject(additionalInfo).getBoolean(siteTypes[f]);
-                if (Boolean.TRUE.equals(typeMatch)) break;
+                try {
+                    typeMatch = testSite.getJSONObject(additionalInfo).getBoolean(siteTypes[f]);
+                    if (Boolean.TRUE.equals(typeMatch)) break;
+                } catch (JSONException e) { /* skip */ }
             }
     
             Boolean functionMatch = siteFunctions.length == 0;
             for (int f = 0; f < siteFunctions.length; f++) {
-                functionMatch = testSite.getJSONObject(additionalInfo).getBoolean(siteFunctions[f]);
-                if (Boolean.TRUE.equals(functionMatch)) break;
+                try {
+                    functionMatch = testSite.getJSONObject(additionalInfo).getBoolean(siteFunctions[f]);
+                    if (Boolean.TRUE.equals(functionMatch)) break;
+                } catch (JSONException e) { /* skip */ }
             }
     
             if (Boolean.TRUE.equals(nameMatch && typeMatch && functionMatch)) {
                 matchingSites.add(testSite);
             }
         }
-    
-        validTestingSites = new JSONArray(matchingSites);
-    
-        for (int x = 0; x < validTestingSites.length(); x++) {
-            System.out.println(validTestingSites.get(x).toString());
-        }
-        
-        return new SimpleResponse<JSONArray>(response.statusCode(), response.uri(), validTestingSites);
+        return new SimpleResponse<JSONArray>(response.statusCode(), response.uri(), new JSONArray(matchingSites));
     }
 }

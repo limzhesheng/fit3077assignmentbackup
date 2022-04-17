@@ -2,6 +2,8 @@ package com.fit3077.assignment2.config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+
+import org.apache.tomcat.jni.File;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -17,8 +19,9 @@ public class ServerConfig {
     public static String apiKey(){
         String key = "";
         try {
-            String filePath = "server/assignment2/bin/main/com/fit3077/assignment2/config/res/api.txt";
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            // using absolute path
+            String currpath = System.getProperty("java.class.path").split(";")[0] + "/com/fit3077/assignment2/config/res/api.txt";
+            BufferedReader reader = new BufferedReader(new FileReader(currpath));
             key = reader.readLine();
             reader.close();
             return key;

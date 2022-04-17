@@ -11,4 +11,14 @@ public class CliConfig {
         return new CliConfig();
     }
 
+    public boolean yesOrNoResponse(String answer) {
+        if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("YES")) {
+            return true;
+        } else if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("NO")) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Answer must be one of 'Y' or 'N'");
+        }
+    }
+
 }

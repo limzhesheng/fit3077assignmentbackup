@@ -2,6 +2,7 @@ package com.fit3077.assignment2;
 
 import java.util.Scanner;
 
+import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.LoginStatusResponse;
 import com.fit3077.assignment2.modules.LoginManager;
 import com.fit3077.assignment2.modules.TestSiteManager;
@@ -53,7 +54,7 @@ public class Assignment2Application {
 			System.out.println("[99] Quit");
 			actionCode = globalScannerInstance.nextInt();
 			if (actionCode == 1) {
-				TestSiteManager.getInstance().search();
+				TestSiteManager.getInstance().search(userSessionToken);
 			}
 			if (actionCode == 2) {
 				return 98;
