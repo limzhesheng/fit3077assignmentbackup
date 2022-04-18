@@ -3,20 +3,22 @@ package com.fit3077.assignment2.config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import org.apache.tomcat.jni.File;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
 public class ServerConfig {
     // Access static instance of this class to get the API key (among other parameters).
     public static final String ROOT_URL = "https://fit3077.com/api/v1";
     public static final String DELIMITER = ",";
+    private String apiKey;
 
-    public ServerConfig(){
+    private ServerConfig(){
         // void
+        this.apiKey = apiKey();
     }
 
-    public static String apiKey(){
+    public static ServerConfig getInstance() {
+        return new ServerConfig();
+    }
+
+    private String apiKey(){
         String key = "";
         try {
             // using absolute path
@@ -29,6 +31,10 @@ public class ServerConfig {
             return key;
         }
 
+    }
+
+    public String getApiKey() {
+        return this.apiKey;
     }
 
 }

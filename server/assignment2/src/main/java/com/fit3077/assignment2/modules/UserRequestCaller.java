@@ -25,7 +25,7 @@ public class UserRequestCaller {
     private String apiKey;
 
     public UserRequestCaller() {
-        this.apiKey = ServerConfig.apiKey();
+        this.apiKey = ServerConfig.getInstance().getApiKey();
     }
 
     @GetMapping("/{id}")

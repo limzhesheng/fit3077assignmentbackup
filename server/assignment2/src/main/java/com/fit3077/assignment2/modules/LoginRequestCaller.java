@@ -9,14 +9,7 @@ import java.net.http.HttpResponse;
 import com.fit3077.assignment2.config.ServerConfig;
 
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("")
 public class LoginRequestCaller {
     // API calls here. Most methods here are really just man-in-the-middle methods that assist the frontend in communicating with the server.
 
@@ -29,12 +22,11 @@ public class LoginRequestCaller {
     private String apiKey;
 
     public LoginRequestCaller() {
-        this.apiKey = ServerConfig.apiKey();
+        this.apiKey = ServerConfig.getInstance().getApiKey();
     }
 
 
-    @PostMapping("/user/login")
-    public HttpResponse userLogin(@RequestBody JSONObject loginData, @RequestParam Boolean jwtRequest) throws IOException, InterruptedException {
+    public HttpResponse userLogin(JSONObject loginData, Boolean jwtRequest) throws IOException, InterruptedException {
         // this is where you do stuff basically
         // Performing a valid GET request to fetch a particular resource by ID
         String jsonString = loginData.toString();
@@ -50,8 +42,7 @@ public class LoginRequestCaller {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    @PostMapping("/user/verify-token")
-    public HttpResponse verifyToken(@RequestBody String jwt) throws IOException, InterruptedException {
+    public HttpResponse verifyToken(String jwt) throws IOException, InterruptedException {
         /*
         Part 5a - Verifying a JWT using the POST /user/verify-token endpoint
         */
