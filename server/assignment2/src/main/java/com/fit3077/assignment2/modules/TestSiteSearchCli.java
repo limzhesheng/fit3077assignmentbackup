@@ -11,21 +11,21 @@ import org.json.JSONArray;
 
 public class TestSiteSearchCli {
     private Scanner sc;
+    private static TestSiteSearchCli testSiteSearchCli;
 
     private TestSiteSearchCli(){
        this.sc = new Scanner(System.in);
     }
 
     public static TestSiteSearchCli getInstance() {
+        if (testSiteSearchCli == null) {
+            testSiteSearchCli = new TestSiteSearchCli();
+        }
         return new TestSiteSearchCli();
     }
 
     private boolean searchForArg(String arg) {
-        return askQuestion("Search for " + arg + "?");
-    }
-
-    private boolean askQuestion(String question) {
-        return CliConfig.getInstance().askQuestion(question);
+        return CliConfig.getInstance().askQuestion("Search for " + arg + "?");
     }
 
     public void search(UserState userSessionToken) {
@@ -105,9 +105,8 @@ public class TestSiteSearchCli {
                 if (Boolean.TRUE.equals(confirmSearch)) confirmSearch = displayResults(results, userSessionToken);
 
             } else {
-                confirmSearch = !askQuestion("Search again?");
+                confirmSearch = !CliConfig.getInstance().askQuestion("Search again?");
             }
-
 
         }
     }
@@ -130,7 +129,7 @@ public class TestSiteSearchCli {
             }
         }
 
-        return !askQuestion("Search again?");
+        return !CliConfig.getInstance().askQuestion("Search again?");
 
     }
 

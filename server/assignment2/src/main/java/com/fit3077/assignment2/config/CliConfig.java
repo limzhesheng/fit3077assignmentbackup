@@ -4,13 +4,18 @@ import java.util.Scanner;
 
 public class CliConfig {
     // Access static instance of this class to get the CLI parameters.
+    private static CliConfig cliConfig;
+    private Scanner sc = new Scanner(System.in);
 
     private CliConfig(){
         // void
     }
 
     public static CliConfig getInstance() {
-        return new CliConfig();
+        if (cliConfig == null) {
+            cliConfig = new CliConfig();
+        }
+        return cliConfig;
     }
 
     public boolean askQuestion(String question) {
@@ -20,11 +25,9 @@ public class CliConfig {
         while (Boolean.FALSE.equals(validResp)) {
             System.out.print(question  + " [Y/N]");
             try {
-                Scanner sc = new Scanner(System.in);
                 resp = sc.nextLine();
                 answer = yesOrNoResponse(resp);
                 validResp = true;
-                sc.close();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }

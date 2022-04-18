@@ -1,5 +1,6 @@
 package com.fit3077.assignment2.modules;
 
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Scanner;
 
@@ -9,16 +10,20 @@ import org.json.JSONObject;
 
 public class LoginCli {
     private Scanner sc;
+    private static LoginCli loginCli;
 
     private LoginCli(){
        this.sc = new Scanner(System.in);
     }
 
     public static LoginCli getInstance() {
-        return new LoginCli();
+        if (loginCli == null) {
+            loginCli = new LoginCli();
+        }
+        return loginCli;
     }
 
-    public UserState login() {
+    public UserState login(Integer roleCode) throws IOException, InterruptedException {
         System.out.println("\n===== Login =====");
         System.out.print("username: ");
         String username = sc.nextLine();
@@ -29,17 +34,19 @@ public class LoginCli {
         loginData.put("userName", username);
         loginData.put("password", passcode);
         
-        LoginRequestCaller requestCaller = new LoginRequestCaller();
+        LoginRequestCaller requestCaller = LoginRequestCaller.getInstance();
+        UserState newState = null;
         try {
-            HttpResponse resp = requestCaller.userLogin(loginData, true);
+            HttpResponse resp = requestCaller.userLogin(loginData, roleCode, true);
             String jwt = new JSONObject(resp.body().toString()).getString("jwt");
             System.out.println("Login successful");
-            return new UserState(true, jwt);
+            newState = new UserState(true, jwt, roleCode);
         } catch (Exception e) {
-            System.err.println(e);
             System.out.println("Login failed");
-            return new UserState(false, "");
+            newState = new UserState(false, "", roleCode);
         }
+
+        return newState;
     }
     
 }

@@ -8,8 +8,6 @@ import java.net.http.HttpResponse;
 
 import com.fit3077.assignment2.config.ServerConfig;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +22,20 @@ public class UserRequestCaller {
 
     private String apiKey;
 
-    public UserRequestCaller() {
+    private static UserRequestCaller userRequestCaller;
+
+    private UserRequestCaller() throws IOException, InterruptedException {
         this.apiKey = ServerConfig.getInstance().getApiKey();
     }
 
-    @GetMapping("/{id}")
-    public HttpResponse getUserById(@PathVariable String id) throws IOException, InterruptedException {
+    public static UserRequestCaller getInstance() throws IOException, InterruptedException {
+        if (userRequestCaller == null) {
+            userRequestCaller = new UserRequestCaller();
+        }
+        return userRequestCaller;
+    }
+
+    public HttpResponse getUserById(String id) throws IOException, InterruptedException {
         // this is where you do stuff basically
         // Performing a valid GET request to fetch a particular resource by ID
 
@@ -40,9 +46,8 @@ public class UserRequestCaller {
             .GET()
             .build();
 
-        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return response;
     }
 
 }

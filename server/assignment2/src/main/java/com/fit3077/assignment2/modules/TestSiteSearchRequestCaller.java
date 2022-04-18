@@ -24,7 +24,7 @@ public class TestSiteSearchRequestCaller {
 
     private String apiKey;
 
-    public TestSiteSearchRequestCaller() {
+    public TestSiteSearchRequestCaller() throws IOException, InterruptedException {
         this.apiKey = ServerConfig.getInstance().getApiKey();
     }
 
