@@ -35,7 +35,7 @@ public class TestSiteSearchRequestCaller {
      * @throws IOException
      * @throws InterruptedException
      */
-    public SimpleResponse searchTestingSite(String suburbName, String functions, String types) throws IOException, InterruptedException {
+    public SimpleResponse<JSONArray> searchTestingSite(String suburbName, String functions, String types) throws IOException, InterruptedException {
         // this is where you do stuff basically
         // Performing a valid GET request to fetch a particular resource by ID
 
@@ -65,7 +65,8 @@ public class TestSiteSearchRequestCaller {
 
         for (int x = 0; x < testingSites.length(); x++) {
             JSONObject testSite = new JSONObject(testingSites.get(x).toString());
-            Boolean nameMatch = testSite.getJSONObject(address).getString(suburb).equals(suburbName);
+            Boolean nameMatch = suburbName.length() == 0 || 
+            (suburbName.length() != 0 && testSite.getJSONObject(address).getString(suburb).equals(suburbName));
     
             // If facility type/function is specified, 
             Boolean typeMatch = siteTypes.length == 0;
@@ -88,6 +89,6 @@ public class TestSiteSearchRequestCaller {
                 matchingSites.add(testSite);
             }
         }
-        return new SimpleResponse<JSONArray>(response.statusCode(), response.uri(), new JSONArray(matchingSites));
+        return new SimpleResponse<>(response.statusCode(), response.uri(), new JSONArray(matchingSites));
     }
 }
