@@ -29,8 +29,6 @@ public class MenuCli {
 		int actionCode = 0;
 		System.out.println("===== COVID Test Registration System =====");
 
-		System.out.println("[DEBUG] Your API Key is:"+ ServerConfig.getInstance().getApiKey());
-
 		while (actionCode != 99) {
 			//System.out.print("Enter 1 to login, 2 to browse as guest, 3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
 			System.out.println("Enter the number in square brackets to:");

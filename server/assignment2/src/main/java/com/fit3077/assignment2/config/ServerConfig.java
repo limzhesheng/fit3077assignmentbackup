@@ -29,7 +29,6 @@ public class ServerConfig {
         try {
             // using absolute path
             String currpath = System.getProperty("java.class.path").split(";")[0] + DS + "com"+DS+"fit3077"+DS+"assignment2"+DS+"config"+DS+"res"+DS+"api.txt";
-            System.out.println("[DEBUG] currpath is:\""+currpath+"\"");
             BufferedReader reader = new BufferedReader(new FileReader(currpath));
             key = reader.readLine();
             reader.close();
