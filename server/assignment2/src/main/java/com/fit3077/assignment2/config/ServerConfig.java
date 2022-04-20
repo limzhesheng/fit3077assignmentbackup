@@ -10,7 +10,7 @@ public class ServerConfig {
     public static final String DELIMITER = ",";
     private String apiKey;
     private static ServerConfig serverConfig;
-    private static final String DS = System.getProperty("file.separator");
+    private static final String DS = System.getProperty("file.separator"); // file Directory Separator
 
     private ServerConfig() throws IOException, InterruptedException{
         // void
