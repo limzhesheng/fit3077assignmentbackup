@@ -3,6 +3,7 @@ package com.fit3077.assignment2.modules;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
 public class MenuCli {
@@ -26,9 +27,18 @@ public class MenuCli {
 
 	public void menuCli() throws IOException, InterruptedException {
 		int actionCode = 0;
-		System.out.println("COVID Test Registration System");
+		System.out.println("===== COVID Test Registration System =====");
+
+		System.out.println("[DEBUG] Your API Key is:"+ ServerConfig.getInstance().getApiKey());
+
 		while (actionCode != 99) {
-			System.out.print("Enter 1 to login, 2 to browse as guest, 3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
+			//System.out.print("Enter 1 to login, 2 to browse as guest, 3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
+			System.out.println("Enter the number in square brackets to:");
+			System.out.println("[1] Login");
+			System.out.println("[2] Browse as Guest");
+			System.out.println("[3] Process on-site bookings");
+			System.out.println("[4] Conduct on-site testing or Conduct home testing");
+			System.out.println("[99] Exit Application");
 			actionCode = sc.nextInt();
 			if (actionCode == 1 || actionCode == 3 || actionCode == 4) {
 				userSessionToken = LoginCli.getInstance().login(actionCode);
