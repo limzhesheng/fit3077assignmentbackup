@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.fit3077.assignment2.config.ServerConfig;
+import com.fit3077.assignment2.modules.interfaces.MutableJsonStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TestSiteManager {
+public class TestSiteManager implements MutableJsonStorage {
     private static TestSiteManager testSiteManager;
 
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -24,7 +25,7 @@ public class TestSiteManager {
     private List<JSONObject> testSites;
 
     private TestSiteManager() {
-        this.findAllSites();
+        this.refresh();
     }
     
     public static TestSiteManager getInstance() {
@@ -34,7 +35,7 @@ public class TestSiteManager {
         return testSiteManager;
     }
 
-    private void findAllSites() {
+    public void refresh() {
         testSites = new ArrayList<>();
         try {
             HttpRequest request = HttpRequest

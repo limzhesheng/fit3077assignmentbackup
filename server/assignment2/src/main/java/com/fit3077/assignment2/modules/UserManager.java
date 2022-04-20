@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.fit3077.assignment2.config.ServerConfig;
+import com.fit3077.assignment2.modules.interfaces.MutableJsonStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserManager {
+public class UserManager implements MutableJsonStorage {
     private static UserManager userManager;
 
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -22,7 +23,7 @@ public class UserManager {
     private Map<String, JSONObject> users;
 
     private UserManager() {
-        this.populateUsers();
+        this.refresh();
     }
     
     public static UserManager getInstance() {
@@ -32,7 +33,7 @@ public class UserManager {
         return userManager;
     }
 
-    public void populateUsers() {
+    public void refresh() {
         users = new HashMap<>();
         try {
             HttpRequest request = HttpRequest
