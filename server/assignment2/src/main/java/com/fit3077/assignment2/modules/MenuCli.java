@@ -31,7 +31,7 @@ public class MenuCli {
 		System.out.println("COVID Test Registration System");
 		while (actionCode != 99) {
 			System.out.print("Enter 1 to login, 2 to browse as guest, "+
-			"3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
+			"3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or " + CliConfig.EXIT_CODE + " to exit application: ");
 			try {
 				actionCode = sc.nextInt();
 				if (actionCode == 1 || actionCode == 3 || actionCode == 4) {
