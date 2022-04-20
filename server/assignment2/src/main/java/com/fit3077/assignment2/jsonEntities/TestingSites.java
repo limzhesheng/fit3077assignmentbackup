@@ -11,4 +11,7 @@ public class TestingSites {
     protected String createdAt;
     protected String updatedAt;
     protected String additionalInfo;
+
+    protected Boolean hasOnsiteTest;
+    protected Boolean canGenerateQRCode;
 }
