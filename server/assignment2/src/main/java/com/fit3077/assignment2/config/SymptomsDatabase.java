@@ -2,9 +2,7 @@ package com.fit3077.assignment2.config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
-
 
 public class SymptomsDatabase {
     // Access static instance of this class to get the API key (among other parameters).

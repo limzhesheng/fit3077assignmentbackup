@@ -6,11 +6,11 @@ public class CliConfig {
     // Access static instance of this class to get the CLI parameters.
     private static CliConfig cliConfig;
     private Scanner sc = new Scanner(System.in);
-    public static final String ERR_PROMPT = "Error occurred.";
+    public static final String ERR_PROMPT = "Error occurred";
     public static final Integer EXIT_CODE = 99;
-    public static final String EXIT_PROMPT = "[99] Quit.";
+    public static final String EXIT_PROMPT = "[99] Quit";
     public static final Integer RETURN_CODE = 98;
-    public static final String RETURN_PROMPT = "[98] Return.";
+    public static final String RETURN_PROMPT = "[98] Return";
 
     public static final String MENU_HEADER = "===== Menu =====";
 

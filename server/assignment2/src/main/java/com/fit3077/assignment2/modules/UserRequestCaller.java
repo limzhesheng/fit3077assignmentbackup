@@ -14,21 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserRequestCaller {
-    private static final String USER_URL = ServerConfig.ROOT_URL + "/user";
-
     private static final HttpClient client = HttpClient.newHttpClient();
-
-    private static final String AUTH_HEADER_KEY = "Authorization";
-
-    private String apiKey;
 
     private static UserRequestCaller userRequestCaller;
 
-    private UserRequestCaller() throws IOException, InterruptedException {
-        this.apiKey = ServerConfig.getInstance().getApiKey();
-    }
+    private UserRequestCaller() {/** */}
 
-    public static UserRequestCaller getInstance() throws IOException, InterruptedException {
+    public static UserRequestCaller getInstance() {
         if (userRequestCaller == null) {
             userRequestCaller = new UserRequestCaller();
         }
@@ -39,10 +31,10 @@ public class UserRequestCaller {
         // this is where you do stuff basically
         // Performing a valid GET request to fetch a particular resource by ID
 
-        String userIdUrl = USER_URL + "/" + id;
+        String userIdUrl = ServerConfig.USER_URL + "/" + id;
         HttpRequest request = HttpRequest
             .newBuilder(URI.create(userIdUrl))
-            .setHeader(AUTH_HEADER_KEY, apiKey)
+            .setHeader(ServerConfig.AUTH_HEADER_KEY, ServerConfig.getInstance().getApiKey())
             .GET()
             .build();
 

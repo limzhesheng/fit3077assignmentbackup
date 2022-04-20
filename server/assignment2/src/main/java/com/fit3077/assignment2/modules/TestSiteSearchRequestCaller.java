@@ -16,17 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TestSiteSearchRequestCaller {
-    private static final String TESTING_SITE_URL = ServerConfig.ROOT_URL + "/testing-site";
-
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String AUTH_HEADER_KEY = "Authorization";
-
-    private String apiKey;
-
-    public TestSiteSearchRequestCaller() throws IOException, InterruptedException {
-        this.apiKey = ServerConfig.getInstance().getApiKey();
-    }
+    public TestSiteSearchRequestCaller() throws IOException, InterruptedException {/** */}
 
     /**
      * API request to search for testing sites. 
@@ -48,10 +40,9 @@ public class TestSiteSearchRequestCaller {
         String[] siteTypes = {};
         if (types != null && types.strip().length() != 0) siteTypes = types.split(ServerConfig.DELIMITER);
 
-        String userIdUrl = TESTING_SITE_URL;
         HttpRequest request = HttpRequest
-            .newBuilder(URI.create(userIdUrl))
-            .setHeader(AUTH_HEADER_KEY, apiKey)
+            .newBuilder(URI.create(ServerConfig.TESTING_SITE_URL))
+            .setHeader(ServerConfig.AUTH_HEADER_KEY, ServerConfig.getInstance().getApiKey())
             .GET()
             .build();
 
@@ -64,7 +55,7 @@ public class TestSiteSearchRequestCaller {
         JSONArray testingSites = new JSONArray(response.body().toString());
 
         for (int x = 0; x < testingSites.length(); x++) {
-            JSONObject testSite = new JSONObject(testingSites.get(x).toString());
+            JSONObject testSite = testingSites.getJSONObject(x);
             Boolean nameMatch = suburbName.length() == 0 || 
             (suburbName.length() != 0 && testSite.getJSONObject(address).getString(suburb).equals(suburbName));
     

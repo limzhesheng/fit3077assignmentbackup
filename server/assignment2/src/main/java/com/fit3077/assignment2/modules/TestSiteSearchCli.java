@@ -24,7 +24,7 @@ public class TestSiteSearchCli {
         if (testSiteSearchCli == null) {
             testSiteSearchCli = new TestSiteSearchCli();
         }
-        return new TestSiteSearchCli();
+        return testSiteSearchCli;
     }
 
     private boolean searchForArg(String arg) {
@@ -110,12 +110,11 @@ public class TestSiteSearchCli {
             } else {
                 confirmSearch = !CliConfig.getInstance().askQuestion("Search again?");
             }
-
         }
     }
 
     private String getAddress(JSONObject testsite) {
-        JSONObject address = new JSONObject(testsite.get("address").toString());
+        JSONObject address = testsite.getJSONObject("address");
         String unitNumKey = "unitNumber";
         String streetKey = "street";
         String street2Key = "street2";
@@ -160,12 +159,13 @@ public class TestSiteSearchCli {
 
     private Boolean displayResults(SimpleResponse<JSONArray> results, UserState userSessionToken) {
         System.out.println("");
+        System.out.println("===== Search results =====");
         if (results.body().length() == 0) {
             System.out.println("No results found. ");
         }
         for (int i = 0; i < results.body().length(); i++) {
             Integer idx = i+1;
-            JSONObject testsite = new JSONObject(results.body().get(i).toString());
+            JSONObject testsite = results.body().getJSONObject(i);
             System.out.println("[" + idx + "]: " + testsite.getString("name"));
             System.out.println("Address: " + getAddress(testsite));
         }
@@ -173,27 +173,39 @@ public class TestSiteSearchCli {
 
         if (results.body().length() != 0) {
             if (userSessionToken != null && userSessionToken.getLoginStatus()) {
-                Boolean testConfirm = false;
-                Integer testSiteChosen = -1;
+                Boolean bookTest = CliConfig.getInstance().askQuestion("Do you want to book a test?");
+                Boolean exitTestSiteInput = !bookTest;
+                Integer siteIndex = -1;
+                JSONObject testsite = null;
 
-                while (!testConfirm) {
+                while (Boolean.FALSE.equals(exitTestSiteInput)) {
                     try {
                         System.out.print("Select test site: ");
-                        testSiteChosen = sc.nextInt();
+                        siteIndex = sc.nextInt();
                     } catch (InputMismatchException e) {
                         System.err.println("Invalid input.");
                         sc.nextLine();
                     }
-                    Integer idx2 = testSiteChosen-1;
+                    Integer idx2 = siteIndex-1;
 
                     if (idx2 >= 0 && idx2 < results.body().length()) {
-                        JSONObject testsite = new JSONObject(results.body().get(idx2).toString());
-                        System.out.println("[" + idx2+1 + "]: " + testsite.getString("name"));
+                        testsite = results.body().getJSONObject(idx2);
+                        Integer displayIdx = idx2 + 1;
+                        System.out.println("[" + displayIdx + "]: " + testsite.getString("name"));
                         System.out.println("Address: " + getAddress(testsite));
                     }
 
-                    testConfirm = CliConfig.getInstance().askQuestion("Confirm test?");
+                    exitTestSiteInput = CliConfig.getInstance().askQuestion("Confirm test?");
                 }
+
+                if (Boolean.TRUE.equals(bookTest)) {
+                    try {
+                        TestBookingCli.getInstance().bookTestViaSystem(testsite, userSessionToken);
+                    }
+                    catch (Exception e) {/** */}
+                    return true;
+                }
+
             } else {
                 System.out.println("You need to login before booking a test.");
             }

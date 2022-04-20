@@ -1,6 +1,5 @@
 package com.fit3077.assignment2.modules;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +41,7 @@ public class OnSiteTestCli {
         return Boolean.TRUE.equals(resp) ? 1 : 0;
     }
 
+    /**TODO Confirm requirements */
     public void onSiteTestForm() {
         System.out.println("===== On-site Testing Form =====");
 
