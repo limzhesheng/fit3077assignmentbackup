@@ -2,7 +2,7 @@ package com.fit3077.assignment2.jsonEntities;
 
 import org.json.JSONObject;
 
-public class Addresses {
+public class Address {
     protected String latitiude;
     protected String longitude;
     protected String unitNumber;

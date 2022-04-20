@@ -1,7 +1,7 @@
 package com.fit3077.assignment2.jsonEntities;
 
-public class Receptionists extends Users{
-    public Receptionists() {
+public class Receptionist extends User{
+    public Receptionist() {
         this.isReceptionist = true;
     }
 }

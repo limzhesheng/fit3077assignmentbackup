@@ -1,7 +1,7 @@
 package com.fit3077.assignment2.jsonEntities;
 
-public class Patients extends Users{
-    public Patients() {
+public class Patient extends User{
+    public Patient() {
         this.isCustomer = true;
     }
 }

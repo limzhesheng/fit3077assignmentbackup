@@ -2,11 +2,11 @@ package com.fit3077.assignment2.jsonEntities;
 
 import org.json.JSONObject;
 
-public class CovidTests {
+public class CovidTest {
     protected String id;
     protected String type;
-    protected Patients patient;
-    protected Receptionists receptionist;
+    protected Patient patient;
+    protected Receptionist adminsterer;
     protected String result;
     protected String status;
     protected String notes;

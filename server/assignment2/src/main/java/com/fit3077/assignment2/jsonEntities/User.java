@@ -2,7 +2,7 @@ package com.fit3077.assignment2.jsonEntities;
 
 import org.json.JSONObject;
 
-public class Users {
+public class User {
     protected String id;
     protected String givenName;
     protected String familyName;
