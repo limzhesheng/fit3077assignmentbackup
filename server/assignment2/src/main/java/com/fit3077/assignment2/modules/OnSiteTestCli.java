@@ -8,10 +8,16 @@ import java.util.Map.Entry;
 
 import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.SymptomsDatabase;
+import com.fit3077.assignment2.config.return_types.UserState;
+
+import org.json.JSONObject;
 
 public class OnSiteTestCli {
     private static Scanner sc = new Scanner(System.in);
 	private static OnSiteTestCli onSiteTestCli;
+
+    private static final String RTK_TEST = "RTK";
+    private static final String PCR_TEST = "PCR";
 
     private OnSiteTestCli() {/*..*/}
 
@@ -42,7 +48,7 @@ public class OnSiteTestCli {
     }
 
     /**TODO Confirm requirements */
-    public void onSiteTestForm() {
+    public void onSiteTestForm(JSONObject testsite, UserState userSessionToken, JSONObject covidTest) {
         System.out.println("===== On-site Testing Form =====");
 
         Boolean confirmSubmit = false;
@@ -81,6 +87,13 @@ public class OnSiteTestCli {
             }
             confirmSubmit = CliConfig.getInstance().askQuestion("Submit form?");
         }
+
+        String testType = RTK_TEST;
+        if (severeSymptomCount != 0) {
+            testType = PCR_TEST;
+        }
+
+        System.out.println("Patient is recommended to take a " + testType + " test");
     }
 
 }

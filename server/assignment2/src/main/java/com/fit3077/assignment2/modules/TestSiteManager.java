@@ -22,6 +22,9 @@ public class TestSiteManager implements MutableJsonStorage {
     private static final HttpClient client = HttpClient.newHttpClient();
     private Scanner sc = new Scanner(System.in);
 
+    private static final String BOOKINGS_KEY = "bookings";
+    private static final String CUSTOMER_KEY = "customer";
+
     private List<JSONObject> testSites;
 
     private TestSiteManager() {
@@ -61,7 +64,7 @@ public class TestSiteManager implements MutableJsonStorage {
         }
     }
 
-    public void displayAllSites() {
+    private void displayAllSites() {
         System.out.println("Testing sites: ");
         for (int i = 0; i < testSites.size(); i++) {
             Integer displayIdx = i+1;
@@ -69,19 +72,23 @@ public class TestSiteManager implements MutableJsonStorage {
         }
     }
 
-    private Boolean siteWithinRange(Integer siteIndex) {
-        return siteIndex > 0 && siteIndex <= testSites.size();
+    private Boolean withinRange(Integer idx, JSONArray list) {
+        return idx > 0 && idx <= list.length();
+    }
+
+    private Boolean withinRange(Integer idx, List list) {
+        return idx > 0 && idx <= list.size();
     }
 
     public JSONObject chooseSite() {
         this.displayAllSites();
         Integer siteIndex = 0;
-        while (Boolean.FALSE.equals(siteWithinRange(siteIndex))) {
+        while (Boolean.FALSE.equals(withinRange(siteIndex, testSites))) {
             try {
                 System.out.print("Select your test site: ");
                 siteIndex = sc.nextInt();
                 
-                if (Boolean.FALSE.equals(siteWithinRange(siteIndex))) {
+                if (Boolean.FALSE.equals(withinRange(siteIndex, testSites))) {
                     System.out.println("No site found.\n");
                 }
             } catch (InputMismatchException e) {
@@ -91,6 +98,41 @@ public class TestSiteManager implements MutableJsonStorage {
         }
 
         return testSites.get(siteIndex-1);
+    }
+
+    private void displayAllBookings(JSONObject testsite) {
+        JSONArray bookings = testsite.getJSONArray(BOOKINGS_KEY);
+
+        System.out.println("Bookings for this site: ");
+        for (int i = 0; i < bookings.length(); i++) {
+            Integer displayIdx = i+1;
+            JSONObject currBooking = bookings.getJSONObject(i);
+            JSONObject currCustomer = currBooking.getJSONObject(CUSTOMER_KEY);
+
+            System.out.println("[" + displayIdx + "]: " + currBooking.getString("id"));
+            System.out.println(currCustomer.getString(ServerConfig.GIVEN_NAME_KEY) + " " + currCustomer.getString(ServerConfig.FAMILY_NAME_KEY));
+        }
+    }
+
+    public JSONObject chooseCovidBooking(JSONObject testsite) {
+        this.displayAllBookings(testsite);
+        Integer bookingIndex = 0;
+        JSONArray bookings = testsite.getJSONArray(BOOKINGS_KEY);
+        while (Boolean.FALSE.equals(withinRange(bookingIndex, bookings))) {
+            try {
+                System.out.print("Select your booking: ");
+                bookingIndex = sc.nextInt();
+                
+                if (Boolean.FALSE.equals(withinRange(bookingIndex, bookings))) {
+                    System.out.println("No booking found.\n");
+                }
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input.");
+                sc.nextLine();
+            }
+        }
+
+        return bookings.getJSONObject(bookingIndex-1);
     }
 
 }

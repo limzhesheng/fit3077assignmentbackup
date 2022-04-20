@@ -129,7 +129,9 @@ public class MenuCli {
 			actionCode = sc.nextInt();
 			if (actionCode == 1) {
 				System.out.println("\n===== On-Site Testing =====");
-				OnSiteTestCli.getInstance().onSiteTestForm();
+				JSONObject testsite = TestSiteManager.getInstance().chooseSite();
+				JSONObject booking = TestSiteManager.getInstance().chooseCovidBooking(testsite);
+				OnSiteTestCli.getInstance().onSiteTestForm(testsite, userSessionToken, booking);
 			}
 			else if (actionCode == 2) {
 				return CliConfig.RETURN_CODE;

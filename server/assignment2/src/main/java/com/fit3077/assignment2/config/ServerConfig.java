@@ -10,7 +10,8 @@ public class ServerConfig {
     public static final String ROOT_URL = "https://fit3077.com/api/v1";
 
     public static final String USER_URL = ROOT_URL + "/user";
-    public static final String TESTING_SITE_URL = ROOT_URL + "/testing-site";
+    public static final String TESTING_SITE_URL = ROOT_URL + "/testing-site?fields=bookings&fields=bookings.covidTests";
+    public static final String BOOKING_URL = ROOT_URL + "/booking";
 
     public static final String DELIMITER = ",";
     private String apiKey;
