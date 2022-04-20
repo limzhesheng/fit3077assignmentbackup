@@ -44,14 +44,14 @@ public class TestSiteSearchCli {
         while (Boolean.FALSE.equals(confirmSearch)) {
             System.out.print("Enter suburb name: ");
             suburbName = sc.nextLine();
-            System.out.println("=== Filter by facility functions ===");
+            System.out.println("\n=== Filter by facility functions ===");
 
             String searchDriveThruPrompt = "drive-through facilities";
             driveThru = searchForArg(searchDriveThruPrompt);
             String searchWalkInPrompt = "walk-in facilities";
             walkIn = searchForArg(searchWalkInPrompt);
 
-            System.out.println("=== Filter by facility types ===");
+            System.out.println("\n=== Filter by facility types ===");
 
             String searchClinicPrompt = "clinics";
             clinic = searchForArg(searchClinicPrompt);
