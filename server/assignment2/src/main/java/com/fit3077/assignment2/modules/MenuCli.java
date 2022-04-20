@@ -34,10 +34,18 @@ public class MenuCli {
 		System.out.println("Current time: " + ServerConfig.getInstance().instantToIsoString(Instant.now()) + "\n");
 
 		int actionCode = 0;
-		System.out.println("COVID Test Registration System");
+		System.out.println("\n===== COVID Test Registration System =====");
 		while (actionCode != 99) {
-			System.out.print("Enter 1 to login, 2 to browse as guest, "+
-			"3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or " + CliConfig.EXIT_CODE + " to exit application: ");
+//			System.out.print("Enter 1 to login, 2 to browse as guest, "+
+//			"3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or " + CliConfig.EXIT_CODE + " to exit application: ");
+			System.out.println("Please enter the number to:");
+			System.out.println("[1] Login");
+			System.out.println("[2] Browse test sites as Guest");
+			System.out.println("[3] Manage Booking as Front Desk Staff");
+			System.out.println("[4] Manage Tests as Healthcare Staff");
+			System.out.println("["+CliConfig.EXIT_CODE+"] Exit Application");
+			System.out.print("Select: ");
+
 			try {
 				actionCode = sc.nextInt();
 				if (actionCode == 1 || actionCode == 3 || actionCode == 4) {
@@ -72,8 +80,9 @@ public class MenuCli {
 			System.out.println("[1] Search Testing Sites");
 			System.out.println("[2] Login");
 			System.out.println("[3] Return");
-			System.out.print("Select: ");
 			System.out.println(CliConfig.EXIT_PROMPT);
+			System.out.print("Select: ");
+
 			actionCode = sc.nextInt();
 			if (actionCode == 1) {
 				TestSiteSearchCli.getInstance().search(userSessionToken);
