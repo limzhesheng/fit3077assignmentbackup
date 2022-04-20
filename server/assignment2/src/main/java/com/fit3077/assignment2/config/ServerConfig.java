@@ -10,6 +10,7 @@ public class ServerConfig {
     public static final String DELIMITER = ",";
     private String apiKey;
     private static ServerConfig serverConfig;
+    private static final String DS = System.getProperty("file.separator");
 
     private ServerConfig() throws IOException, InterruptedException{
         // void
@@ -27,7 +28,8 @@ public class ServerConfig {
         String key = "";
         try {
             // using absolute path
-            String currpath = System.getProperty("java.class.path").split(";")[0] + "/com/fit3077/assignment2/config/res/api.txt";
+            String currpath = System.getProperty("java.class.path").split(";")[0] + DS + "com"+DS+"fit3077"+DS+"assignment2"+DS+"config"+DS+"res"+DS+"api.txt";
+            System.out.println("[DEBUG] currpath is:\""+currpath+"\"");
             BufferedReader reader = new BufferedReader(new FileReader(currpath));
             key = reader.readLine();
             reader.close();
