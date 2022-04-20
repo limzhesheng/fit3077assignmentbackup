@@ -1,5 +1,7 @@
 package com.fit3077.assignment2.jsonEntities;
 
+import org.json.JSONObject;
+
 public class Addresses {
     protected String latitiude;
     protected String longitude;
@@ -9,5 +11,5 @@ public class Addresses {
     protected String suburb;
     protected String state;
     protected String postcode;
-    protected String additionalInfo;
+    protected JSONObject additionalInfo;
 }
