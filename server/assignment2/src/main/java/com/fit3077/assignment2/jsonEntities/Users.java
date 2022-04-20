@@ -7,7 +7,7 @@ public class Users {
     protected String userName;
     protected String phoneNumber;
     protected Boolean isCustomer;
-    protected Boolean isAdmin;
+    protected Boolean isReceptionist; // isAdmin does not exist in actual JSON HTTP response
     protected Boolean isHealthcareWorker;
     protected String additionalInfo;
 }

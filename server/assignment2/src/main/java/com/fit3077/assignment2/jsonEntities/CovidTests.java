@@ -4,7 +4,7 @@ public class CovidTests {
     protected String id;
     protected String type;
     protected Patients patient;
-    protected Admin admin;
+    protected Receptionists receptionist;
     protected String result;
     protected String status;
     protected String notes;
