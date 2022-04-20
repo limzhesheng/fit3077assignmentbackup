@@ -1,8 +1,10 @@
 package com.fit3077.assignment2.modules;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
 public class MenuCli {
@@ -28,24 +30,29 @@ public class MenuCli {
 		int actionCode = 0;
 		System.out.println("COVID Test Registration System");
 		while (actionCode != 99) {
-			System.out.print("Enter 1 to login, 2 to browse as guest, 3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
-			actionCode = sc.nextInt();
-			if (actionCode == 1 || actionCode == 3 || actionCode == 4) {
-				userSessionToken = LoginCli.getInstance().login(actionCode);
-				if (userSessionToken != null && userSessionToken.getLoginStatus()) {
-					if (actionCode == 1){
-						actionCode = userAndGuestPanel();
-					} else if (actionCode == 3) {
-						actionCode = frontDeskPanel();
-					} else if (actionCode == 4) {
-						actionCode = healthWorkerPanel();
+			System.out.print("Enter 1 to login, 2 to browse as guest, "+
+			"3 if you are a frontdesk staff member, 4 if you are a healthcare staff member, or 99 to exit application: ");
+			try {
+				actionCode = sc.nextInt();
+				if (actionCode == 1 || actionCode == 3 || actionCode == 4) {
+					userSessionToken = LoginCli.getInstance().login(actionCode);
+					if (userSessionToken != null && userSessionToken.getLoginStatus()) {
+						if (actionCode == 1){
+							actionCode = userAndGuestPanel();
+						} else if (actionCode == 3) {
+							actionCode = frontDeskPanel();
+						} else if (actionCode == 4) {
+							actionCode = healthWorkerPanel();
+						}
 					}
 				}
+				if (actionCode == 2){
+					actionCode = userAndGuestPanel();
+				}
+			} catch (InputMismatchException e) {
+				System.err.println("Invalid input.");
+				sc.nextLine();
 			}
-			if (actionCode == 2){
-				actionCode = userAndGuestPanel();
-			}
-			
 		}
 		sc.close();
 	}
@@ -54,12 +61,12 @@ public class MenuCli {
 		int actionCode = 0;
 		String loggedIn = userSessionToken != null && userSessionToken.getLoginStatus() ? " " : " not ";
 		System.out.println("You are" + loggedIn + "logged in.");
-		while (actionCode != 99) {
-			System.out.println("===== Menu =====\n");
+		while (actionCode != CliConfig.EXIT_CODE) {
+			System.out.println(CliConfig.MENU_HEADER);
 			System.out.println("[1] Search Testing Sites");
 			System.out.println("[2] Login");
 			System.out.println("[3] Return");
-			System.out.println("[99] Quit");
+			System.out.println(CliConfig.EXIT_PROMPT);
 			actionCode = sc.nextInt();
 			if (actionCode == 1) {
 				TestSiteSearchCli.getInstance().search(userSessionToken);
@@ -77,13 +84,13 @@ public class MenuCli {
 	private int frontDeskPanel() {
 		int actionCode = 0;
 		while (actionCode != 99) {
-			System.out.println("===== Menu =====\n");
+			System.out.println(CliConfig.MENU_HEADER);
 			System.out.println("[1] On-Site Booking");
 			System.out.println("[2] Return");
-			System.out.println("[99] Quit");
+			System.out.println(CliConfig.EXIT_PROMPT);
 			actionCode = sc.nextInt();
 			if (actionCode == 2) {
-				return 98;
+				return CliConfig.RETURN_CODE;
 			}
 		}
 		return actionCode;
@@ -92,16 +99,16 @@ public class MenuCli {
 	private int healthWorkerPanel() {
 		int actionCode = 0;
 		while (actionCode != 99) {
-			System.out.println("===== Menu =====\n");
+			System.out.println(CliConfig.MENU_HEADER);
 			System.out.println("[1] On-Site Testing");
 			System.out.println("[2] Return");
-			System.out.println("[99] Quit");
+			System.out.println(CliConfig.EXIT_PROMPT);
 			actionCode = sc.nextInt();
 			if (actionCode == 1) {
 				OnSiteTestCli.getInstance().onSiteTestForm();
 			}
 			else if (actionCode == 2) {
-				return 98;
+				return CliConfig.RETURN_CODE;
 			}
 		}
 		return actionCode;
