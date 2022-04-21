@@ -12,4 +12,10 @@ public class User {
     protected Boolean isReceptionist; // isAdmin does not exist in actual JSON HTTP response
     protected Boolean isHealthcareWorker;
     protected JSONObject additionalInfo;
+
+    public User() {/** zero-arg constructor */}
+
+    public String getUserName() {
+        return this.userName;
+    }
 }

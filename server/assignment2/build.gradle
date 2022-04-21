@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.json:json:20210307'
 	implementation 'com.google.zxing:core:3.4.0'
 	implementation 'com.google.zxing:javase:3.4.0'
+	implementation 'org.modelmapper:modelmapper:2.4.5'
 }
 
 tasks.named('test') {

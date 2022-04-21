@@ -1,8 +1,11 @@
 package com.fit3077.assignment2.jsonEntities;
 
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 
 public class CovidTest {
+    private static final String PATIENT_KEY = "patient";
+    private static final String ADMINSTERER_KEY = "administerer";
     protected String id;
     protected String type;
     protected Patient patient;
@@ -15,4 +18,13 @@ public class CovidTest {
     protected String createdAt;
     protected String updatedAt;
     protected JSONObject additionalInfo;
+
+    public CovidTest() {/** zero-arg constructor */}
+
+    public CovidTest(JSONObject obj) {
+        ModelMapper modelMapper = new ModelMapper();
+        this.patient = modelMapper.map(obj.getJSONObject(PATIENT_KEY), Patient.class);
+        this.adminsterer = modelMapper.map(obj.getJSONObject(ADMINSTERER_KEY), Receptionist.class);
+    }
+
 }
