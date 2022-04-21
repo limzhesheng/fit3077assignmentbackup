@@ -2,7 +2,8 @@ package com.fit3077.assignment2.jsonEntities;
 
 import java.util.List;
 
-import org.json.JSONObject;
+import com.fit3077.assignment2.config.CliConfig;
+import org.json.*;
 
 public class TestingSite {
     protected String id;
@@ -18,4 +19,17 @@ public class TestingSite {
 
     protected Boolean hasOnsiteTest;
     protected Boolean canGenerateQRCode;
+
+    public TestingSite() {
+        this.hasOnsiteTest = CliConfig.getInstance().askQuestion("Does this site have on-site testing?");
+        this.canGenerateQRCode = CliConfig.getInstance().askQuestion("Can this site generate QR Codes?");
+        try {
+            this.additionalInfo = new JSONObject(
+                    "{\"hasOnsiteTest\":\"" + hasOnsiteTest +
+                            "\",\"canGenerateQRCode\":" + canGenerateQRCode +"\"}"
+            );
+        }catch (JSONException err){
+            this.additionalInfo = new JSONObject("{}");
+        }
+    }
 }
