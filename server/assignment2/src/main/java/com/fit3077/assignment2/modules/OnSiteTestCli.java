@@ -19,7 +19,7 @@ public class OnSiteTestCli {
     private static Scanner sc = new Scanner(System.in);
 	private static OnSiteTestCli onSiteTestCli;
 
-    private static final String RTK_TEST = "RTK";
+    private static final String RAT_TEST = "RAT";
     private static final String PCR_TEST = "PCR";
 
     private OnSiteTestCli() {/*..*/}
@@ -91,7 +91,7 @@ public class OnSiteTestCli {
             confirmSubmit = CliConfig.getInstance().askQuestion("Submit form?");
         }
 
-        String testType = RTK_TEST;
+        String testType = RAT_TEST;
         if (severeSymptomCount != 0) {
             testType = PCR_TEST;
         }

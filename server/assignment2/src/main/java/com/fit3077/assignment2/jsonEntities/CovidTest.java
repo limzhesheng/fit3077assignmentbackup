@@ -27,4 +27,10 @@ public class CovidTest {
         this.adminsterer = modelMapper.map(obj.getJSONObject(ADMINSTERER_KEY), Receptionist.class);
     }
 
+    /**
+     * CovidTest nested items:
+     * CovidTest --|
+     *             |--> Patient
+     *             |--> Receptionist
+     */
 }

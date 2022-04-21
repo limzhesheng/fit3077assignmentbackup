@@ -38,4 +38,13 @@ public class Booking {
         }
         this.covidTests.add(c);
     }
+
+    /**
+     * Booking nested items:
+     * Booking --|
+     *           |--> Patient
+     *           |--> List<CovidTest> --|
+     *                                  |--> Patient
+     *                                  |--> Receptionist
+     */
 }
