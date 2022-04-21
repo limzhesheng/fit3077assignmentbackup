@@ -16,6 +16,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	google()
 }
 
 dependencies {
@@ -25,7 +26,9 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.json:json:20210307'	
+	implementation 'org.json:json:20210307'
+	implementation 'com.google.zxing:core:3.4.0'
+	implementation 'com.google.zxing:javase:3.4.0'
 }
 
 tasks.named('test') {
