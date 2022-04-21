@@ -12,6 +12,9 @@ import com.fit3077.assignment2.config.return_types.UserState;
 
 import org.json.JSONObject;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class OnSiteTestCli {
     private static Scanner sc = new Scanner(System.in);
 	private static OnSiteTestCli onSiteTestCli;
@@ -67,7 +70,7 @@ public class OnSiteTestCli {
 
                 contactDegree = sc.nextInt();
                 if (Boolean.FALSE.equals(validContactDegreeInput(contactDegree))) {
-                    System.err.println("Invalid input");
+                    log.warn("Invalid input");
                 }
             }
 

@@ -12,6 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TestSiteSearchCli {
     private Scanner sc;
     private static TestSiteSearchCli testSiteSearchCli;
@@ -92,16 +95,16 @@ public class TestSiteSearchCli {
                     results = new TestSiteSearchRequestCaller().searchTestingSite(suburbName, functions, types);
                     confirmSearch = true;
                 } catch (IOException e) {
-                    System.err.println(CliConfig.ERR_PROMPT);
+                    log.warn(CliConfig.ERR_PROMPT);
                     confirmSearch = false;
                 } catch (InterruptedException e) {
-                    System.err.println(CliConfig.ERR_PROMPT);
+                    log.warn(CliConfig.ERR_PROMPT);
                     confirmSearch = false;
                     Thread.currentThread().interrupt();
                 }
 
                 if (results.statusCode() != 200) {
-                    System.err.println(CliConfig.ERR_PROMPT);
+                    log.warn(CliConfig.ERR_PROMPT);
                     confirmSearch = false;
                 }
 
@@ -183,7 +186,7 @@ public class TestSiteSearchCli {
                         System.out.print("Select test site: ");
                         siteIndex = sc.nextInt();
                     } catch (InputMismatchException e) {
-                        System.err.println("Invalid input.");
+                        log.warn("Invalid input.");
                         sc.nextLine();
                     }
                     Integer idx2 = siteIndex-1;

@@ -16,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TestSiteManager implements MutableJsonStorage {
     private static TestSiteManager testSiteManager;
 
@@ -60,7 +63,7 @@ public class TestSiteManager implements MutableJsonStorage {
                 
             }
         } catch (Exception e) {
-            System.err.println("Warning: test site data not cached");
+            log.warn("Warning: test site data not cached");
         }
     }
 
@@ -89,10 +92,10 @@ public class TestSiteManager implements MutableJsonStorage {
                 siteIndex = sc.nextInt();
                 
                 if (Boolean.FALSE.equals(withinRange(siteIndex, testSites))) {
-                    System.out.println("No site found.\n");
+                    log.info("No site found.\n");
                 }
             } catch (InputMismatchException e) {
-                System.err.println("Invalid input.");
+                log.warn("Invalid input.");
                 sc.nextLine();
             }
         }
@@ -114,7 +117,7 @@ public class TestSiteManager implements MutableJsonStorage {
         }
     }
 
-    public JSONObject chooseCovidBooking(JSONObject testsite) {
+    public JSONObject chooseBooking(JSONObject testsite) {
         this.displayAllBookings(testsite);
         Integer bookingIndex = 0;
         JSONArray bookings = testsite.getJSONArray(BOOKINGS_KEY);
@@ -124,10 +127,10 @@ public class TestSiteManager implements MutableJsonStorage {
                 bookingIndex = sc.nextInt();
                 
                 if (Boolean.FALSE.equals(withinRange(bookingIndex, bookings))) {
-                    System.out.println("No booking found.\n");
+                    log.info("No booking found.\n");
                 }
             } catch (InputMismatchException e) {
-                System.err.println("Invalid input.");
+                log.warn("Invalid input.");
                 sc.nextLine();
             }
         }

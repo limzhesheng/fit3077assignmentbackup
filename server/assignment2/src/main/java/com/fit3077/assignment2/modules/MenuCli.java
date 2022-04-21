@@ -11,6 +11,9 @@ import com.fit3077.assignment2.config.return_types.UserState;
 
 import org.json.JSONObject;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MenuCli {
     private static Scanner sc = new Scanner(System.in);
 	private static MenuCli menuCli;
@@ -64,7 +67,7 @@ public class MenuCli {
 					actionCode = userAndGuestPanel();
 				}
 			} catch (InputMismatchException e) {
-				System.err.println("Invalid input.");
+				log.warn("Invalid input.");
 				sc.nextLine();
 			}
 		}
@@ -130,7 +133,7 @@ public class MenuCli {
 			if (actionCode == 1) {
 				System.out.println("\n===== On-Site Testing =====");
 				JSONObject testsite = TestSiteManager.getInstance().chooseSite();
-				JSONObject booking = TestSiteManager.getInstance().chooseCovidBooking(testsite);
+				JSONObject booking = TestSiteManager.getInstance().chooseBooking(testsite);
 				OnSiteTestCli.getInstance().onSiteTestForm(testsite, userSessionToken, booking);
 			}
 			else if (actionCode == 2) {
