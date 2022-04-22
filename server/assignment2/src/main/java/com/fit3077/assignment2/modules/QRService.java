@@ -50,7 +50,7 @@ public class QRService implements QRInterface {
             }
 
             // Write to file in \image folder
-            Path filePath = (Path.of(workingDirectory+DS+"images"+DS+ Paths.get(fileName)));
+            Path filePath = (Path.of(workingDirectory+DS+"server"+DS+"assignment2"+DS+"src"+DS+"images"+DS+ Paths.get(fileName)));
             System.out.println(filePath);
             MatrixToImageWriter.writeToPath(bitMatrix, "PNG", filePath);
 
