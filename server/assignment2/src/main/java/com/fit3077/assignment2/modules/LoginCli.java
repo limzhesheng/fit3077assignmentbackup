@@ -20,6 +20,7 @@ public class LoginCli {
     public static LoginCli getInstance() {
         if (loginCli == null) {
             loginCli = new LoginCli();
+            // Notify observer that a new instance of LoginCli has been instantiated
         }
         return loginCli;
     }
