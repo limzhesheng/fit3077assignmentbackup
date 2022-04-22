@@ -6,3 +6,6 @@ will only be accessed from that one instance.
 # Facade Design Pattern
 Interactions with the system is converged behind CLIs, 
 # Observer
+Observers notify any changes made to the observed entity to Listeners,
+For classes with Singleton Design Pattern Instances, this is especially important as
+there will be only one instance and any changes may affect the whole programme.
