@@ -10,14 +10,19 @@ import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.SymptomsDatabase;
 import com.fit3077.assignment2.config.return_types.UserState;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class OnSiteTestCli {
+public class OnSiteTestCli extends ConcreteWatched {
     private static Scanner sc = new Scanner(System.in);
 	private static OnSiteTestCli onSiteTestCli;
+    private static Watcher newInstanceWatcher;
+
 
     private static final String RAT_TEST = "RAT";
     private static final String PCR_TEST = "PCR";
@@ -27,6 +32,17 @@ public class OnSiteTestCli {
     public static OnSiteTestCli getInstance() {
         if (onSiteTestCli == null) {
             onSiteTestCli = new OnSiteTestCli();
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                onSiteTestCli.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                onSiteTestCli.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                onSiteTestCli.notifyWatchers("A new Instance of On-site Test CLI has been created");
+            }
+
         }
         return onSiteTestCli;
     }

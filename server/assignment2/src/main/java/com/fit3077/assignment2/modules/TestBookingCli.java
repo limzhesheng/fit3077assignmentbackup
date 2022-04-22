@@ -7,11 +7,15 @@ import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONObject;
 
-public class TestBookingCli {
+public class TestBookingCli extends ConcreteWatched {
     private Scanner sc;
     private static TestBookingCli testBookingCli;
+    private static Watcher newInstanceWatcher;
     private static final String NOTES_KEY = "notes";
     private static final String START_TIME_KEY = "startTime";
 
@@ -22,6 +26,16 @@ public class TestBookingCli {
     public static TestBookingCli getInstance() {
         if (testBookingCli == null) {
             testBookingCli = new TestBookingCli();
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                testBookingCli.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                testBookingCli.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                testBookingCli.notifyWatchers("A new Instance of Test Booking CLI has been created");
+            }
         }
         return testBookingCli;
     }

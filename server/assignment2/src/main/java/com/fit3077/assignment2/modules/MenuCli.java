@@ -9,14 +9,18 @@ import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MenuCli {
+public class MenuCli extends ConcreteWatched {
     private static Scanner sc = new Scanner(System.in);
 	private static MenuCli menuCli;
+	private static Watcher newInstanceWatcher;
 
 	private UserState userSessionToken = null;
 
@@ -29,6 +33,16 @@ public class MenuCli {
     public static MenuCli getInstance() {
         if (menuCli == null) {
             menuCli = new MenuCli();
+			if (newInstanceWatcher == null) {
+				// Clear all previous watchers
+				menuCli.clearAllWatchers();
+				// Create a newInstanceWatcher
+				newInstanceWatcher = new ConcreteWatcher();
+				// Add watchers to this loginCli
+				menuCli.addWatcher(newInstanceWatcher);
+				// Notify observer that a new instance of LoginCli has been instantiated
+				menuCli.notifyWatchers("A new Instance of Menu CLI has been created");
+			}
         }
         return menuCli;
     }

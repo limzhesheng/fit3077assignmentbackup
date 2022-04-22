@@ -17,6 +17,11 @@ public class ConcreteWatched implements Watched
         list.remove(watcher);
     }
     @Override
+    public void clearAllWatchers()
+    {
+        list.clear();
+    }
+    @Override
     public void notifyWatchers(String str)
     {
         //The auto-invocation is actually invoked by the topic

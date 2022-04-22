@@ -12,6 +12,9 @@ import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.jsonEntities.User;
 import com.fit3077.assignment2.modules.interfaces.MutableJsonStorage;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +23,9 @@ import org.modelmapper.ModelMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UserManager implements MutableJsonStorage {
+public class UserManager extends ConcreteWatched implements MutableJsonStorage{
     private static UserManager userManager;
+    private static Watcher newInstanceWatcher;
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
@@ -35,6 +39,16 @@ public class UserManager implements MutableJsonStorage {
     public static UserManager getInstance() {
         if (userManager == null) {
             userManager = new UserManager();
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                userManager.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                userManager.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                userManager.notifyWatchers("A new Instance of User Manager has been created");
+            }
         }
         return userManager;
     }

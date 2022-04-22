@@ -8,6 +8,9 @@ import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 import com.fit3077.assignment2.config.return_types.SimpleResponse;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,9 +18,10 @@ import org.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TestSiteSearchCli {
+public class TestSiteSearchCli extends ConcreteWatched {
     private Scanner sc;
     private static TestSiteSearchCli testSiteSearchCli;
+    private static Watcher newInstanceWatcher;
 
     private TestSiteSearchCli(){
        this.sc = new Scanner(System.in);
@@ -26,6 +30,16 @@ public class TestSiteSearchCli {
     public static TestSiteSearchCli getInstance() {
         if (testSiteSearchCli == null) {
             testSiteSearchCli = new TestSiteSearchCli();
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                testSiteSearchCli.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                testSiteSearchCli.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                testSiteSearchCli.notifyWatchers("A new Instance of Test Site Search CLI has been created");
+            }
         }
         return testSiteSearchCli;
     }

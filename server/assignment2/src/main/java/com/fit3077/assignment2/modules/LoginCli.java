@@ -7,11 +7,16 @@ import java.util.Scanner;
 import com.fit3077.assignment2.config.CliConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watched;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONObject;
 
-public class LoginCli {
+public class LoginCli extends ConcreteWatched {
     private Scanner sc;
     private static LoginCli loginCli;
+    private static Watcher newInstanceWatcher;
 
     private LoginCli(){
        this.sc = new Scanner(System.in);
@@ -20,7 +25,17 @@ public class LoginCli {
     public static LoginCli getInstance() {
         if (loginCli == null) {
             loginCli = new LoginCli();
-            // Notify observer that a new instance of LoginCli has been instantiated
+
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                loginCli.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                loginCli.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                loginCli.notifyWatchers("A new Instance of Login CLI has been created");
+            }
         }
         return loginCli;
     }

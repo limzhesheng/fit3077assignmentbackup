@@ -9,12 +9,15 @@ import java.net.http.HttpResponse;
 import com.fit3077.assignment2.config.ServerConfig;
 import com.fit3077.assignment2.config.return_types.UserState;
 
+import com.fit3077.assignment2.obervers.ConcreteWatched;
+import com.fit3077.assignment2.obervers.ConcreteWatcher;
+import com.fit3077.assignment2.obervers.Watcher;
 import org.json.JSONObject;
 
-public class LoginRequestCaller {
+public class LoginRequestCaller extends ConcreteWatched {
     // API calls here. Most methods here are really just man-in-the-middle methods that assist the frontend in communicating with the server.
     private static LoginRequestCaller loginRequestCaller;
-
+    private static Watcher newInstanceWatcher;
     private static final HttpClient client = HttpClient.newHttpClient();
 
     private static final String USERNAME_KEY = "userName";
@@ -26,6 +29,16 @@ public class LoginRequestCaller {
     public static LoginRequestCaller getInstance() {
         if (loginRequestCaller == null) {
             loginRequestCaller = new LoginRequestCaller();
+            if (newInstanceWatcher == null) {
+                // Clear all previous watchers
+                loginRequestCaller.clearAllWatchers();
+                // Create a newInstanceWatcher
+                newInstanceWatcher = new ConcreteWatcher();
+                // Add watchers to this loginCli
+                loginRequestCaller.addWatcher(newInstanceWatcher);
+                // Notify observer that a new instance of LoginCli has been instantiated
+                loginRequestCaller.notifyWatchers("A new Instance of Login Request Caller has been created");
+            }
         }
         return loginRequestCaller;
     }
