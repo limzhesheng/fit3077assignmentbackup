@@ -9,3 +9,7 @@ Interactions with the system is converged behind CLIs,
 Observers notify any changes made to the observed entity to Listeners,
 For classes with Singleton Design Pattern Instances, this is especially important as
 there will be only one instance and any changes may affect the whole programme.
+# Single Responsibility Principle
+Each class and interface is used to store a specific function or
+a set of specific information of the system.
+For example
